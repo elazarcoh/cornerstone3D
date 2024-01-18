@@ -2989,8 +2989,6 @@ class TargetEventListeners {
 // @public (undocumented)
 type TargetSpecifier = {
     sliceIndex?: number;
-    forFrameOfReference?: boolean;
-    points?: Point3[];
     volumeId?: string;
 };
 

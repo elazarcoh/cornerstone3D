@@ -1385,6 +1385,13 @@ abstract class BaseVolumeViewport extends Viewport implements IVolumeViewport {
 
   abstract getCurrentImageId(): string;
 
+  /**
+   * Gets a volumeId specifier for an annotation target.
+   * By default, the volume is the first vtk volume found as an actor.
+   * Then, the sliceIndex for the current image position is added, as well
+   * as the focal point and view plane normal.  This allows recovering enough
+   * of the view to allow displaying the target of the annotation.
+   */
   public getTargetId(specifier: TargetSpecifier = {}): string {
     let { volumeId, sliceIndex } = specifier;
     if (!volumeId) {
@@ -1393,8 +1400,8 @@ abstract class BaseVolumeViewport extends Viewport implements IVolumeViewport {
         return;
       }
       // find the first image actor of instance type vtkVolume
-      volumeId = actorEntries.find(
-        (actorEntry) => actorEntry.actor.getClassName() === 'vtkVolume'
+      volumeId = actorEntries.find((actorEntry) =>
+        actorEntry.actor.isA('vtkVolume')
       )?.uid;
     }
 

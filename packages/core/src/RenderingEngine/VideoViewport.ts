@@ -640,6 +640,16 @@ class VideoViewport extends Viewport implements IVideoViewport {
     return current;
   }
 
+  /**
+   * Gets a target ID which can be used to select annotations for display.
+   * By default, this will return a single frame specifier if the video is not
+   * playing, or a specifier for the current video range if the video is playing.
+   * The specifier may include a slice index, which is one less than the frame number
+   * to allow specifying a specific frame to target instead of hte currently displayed
+   * frame.
+   *
+   * @returns a string in the form `videoId:<imageId>...frame number specifier`
+   */
   public getTargetId(specifier: TargetSpecifier = {}): string {
     const { sliceIndex } = specifier;
     if (sliceIndex === undefined) {

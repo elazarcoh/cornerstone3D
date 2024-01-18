@@ -2812,6 +2812,12 @@ class StackViewport extends Viewport implements IStackViewport, IImagesLoader {
     return this.currentImageIdIndex;
   };
 
+  /**
+   * Gets a string id for the given target.  By default, with no arguments,
+   * the target is the currently displayed image or volume.  Specifying a slice
+   * index allows choosing another image in the stack as the target for an
+   * annotation.
+   */
   public getTargetId(specifier: TargetSpecifier = {}): string {
     const { sliceIndex: imageIdIndex = this.currentImageIdIndex } = specifier;
     return `imageId:${this.imageIds[imageIdIndex]}`;

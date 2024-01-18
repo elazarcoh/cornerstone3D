@@ -8,15 +8,14 @@ import ViewportStatus from '../enums/ViewportStatus';
 import DisplayArea from './displayArea';
 
 /**
- * Specifies what image to get a reference for.
+ * Specifies what image to get a reference for.  This allows getting a reference
+ * for a view not currently in display.
+ * This type is expected to be enhanced with more specifiers to allow specifying
+ * things like what set of points needs to be included, or the pan/zoom required.
  */
 export type TargetSpecifier = {
   /** The slice index within the current viewport camera to get a reference for */
   sliceIndex?: number;
-  /** True to get a frame of reference UID reference instead of a regular image one */
-  forFrameOfReference?: boolean;
-  /** Set of points to get a reference for, in world space */
-  points?: Point3[];
   /** The volumeId to reference */
   volumeId?: string;
 };

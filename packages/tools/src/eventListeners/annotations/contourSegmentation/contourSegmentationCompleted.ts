@@ -1,8 +1,5 @@
-import {
-  getEnabledElement,
-  utilities as csUtils,
-  Types,
-} from '@cornerstonejs/core';
+import { getEnabledElement, utilities as csUtils } from '@cornerstonejs/core';
+import type { IViewport } from '@cornerstonejs/core/types';
 import { ContourSegmentationAnnotation } from '../../../types/ContourSegmentationAnnotation';
 import getViewportsForAnnotation from '../../../utilities/getViewportsForAnnotation';
 import {
@@ -93,7 +90,7 @@ export default async function contourSegmentationCompletedListener(
 }
 
 function isFreehandContourSegToolRegisteredForViewport(
-  viewport: Types.IViewport,
+  viewport: IViewport,
   silent = false
 ) {
   const { toolName } = PlanarFreehandContourSegmentationTool;
@@ -133,7 +130,7 @@ function getViewport(annotation: Annotation) {
 
 function convertContourPolylineToCanvasSpace(
   polyline: Types.Point3[],
-  viewport: Types.IViewport
+  viewport: IViewport
 ): Types.Point2[] {
   const numPoints = polyline.length;
   const projectedPolyline = new Array(numPoints);
@@ -146,7 +143,7 @@ function convertContourPolylineToCanvasSpace(
 }
 
 function getValidContourSegmentationAnnotations(
-  viewport: Types.IViewport,
+  viewport: IViewport,
   sourceAnnotation: ContourSegmentationAnnotation
 ): ContourSegmentationAnnotation[] {
   const { annotationUID: sourceAnnotationUID } = sourceAnnotation;
@@ -168,7 +165,7 @@ function getValidContourSegmentationAnnotations(
  * represented as canvas points.
  */
 function findIntersectingContour(
-  viewport: Types.IViewport,
+  viewport: IViewport,
   sourcePolyline: Types.Point2[],
   contourSegmentationAnnotations: ContourSegmentationAnnotation[]
 ): {
@@ -207,7 +204,7 @@ function findIntersectingContour(
 
  */
 export function createPolylineHole(
-  viewport: Types.IViewport,
+  viewport: IViewport,
   targetAnnotation: ContourSegmentationAnnotation,
   holeAnnotation: ContourSegmentationAnnotation
 ) {
@@ -248,7 +245,7 @@ export function createPolylineHole(
 }
 
 function getContourHolesData(
-  viewport: Types.IViewport,
+  viewport: IViewport,
   annotation: ContourAnnotation
 ) {
   return getChildAnnotations(annotation).map((holeAnnotation) => {
@@ -262,7 +259,7 @@ function getContourHolesData(
 }
 
 function combinePolylines(
-  viewport: Types.IViewport,
+  viewport: IViewport,
   targetAnnotation: ContourSegmentationAnnotation,
   targetPolyline: Types.Point2[],
   sourceAnnotation: ContourSegmentationAnnotation,

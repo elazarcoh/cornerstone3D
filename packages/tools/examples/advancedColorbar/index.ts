@@ -7,6 +7,7 @@ import {
   volumeLoader,
   getRenderingEngine,
 } from '@cornerstonejs/core';
+import type { IViewport } from '@cornerstonejs/core/types';
 import { utilities as cstUtils } from '@cornerstonejs/tools';
 import {
   initDemo,
@@ -501,7 +502,7 @@ async function initializeViewport(renderingEngine, toolGroup, viewportInfo) {
   initializeColorbars(viewportInfo, colorbarContainers);
 
   const ctImageIds = await getCTImageIds();
-  const viewport = <Types.IViewport>renderingEngine.getViewport(viewportId);
+  const viewport = <IViewport>renderingEngine.getViewport(viewportId);
 
   if (viewportInput.type === ViewportType.STACK) {
     await (<Types.IStackViewport>viewport).setStack(ctImageIds);

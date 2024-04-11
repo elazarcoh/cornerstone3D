@@ -2,8 +2,8 @@ import {
   getRenderingEngine,
   getEnabledElement,
   Enums,
-  Types,
 } from '@cornerstonejs/core';
+import type { IViewportId } from '@cornerstonejs/core/types';
 
 import { ISynchronizerEventHandler } from '../../types';
 
@@ -20,8 +20,8 @@ class Synchronizer {
   private _auxiliaryEventNames: string[];
   private _eventHandler: ISynchronizerEventHandler;
   private _ignoreFiredEvents: boolean;
-  private _sourceViewports: Array<Types.IViewportId>;
-  private _targetViewports: Array<Types.IViewportId>;
+  private _sourceViewports: Array<IViewportId>;
+  private _targetViewports: Array<IViewportId>;
   private _viewportOptions: Record<string, Record<string, unknown>> = {};
   private _options: any;
   public id: string;
@@ -82,7 +82,7 @@ class Synchronizer {
    * Add a viewport to the list of targets and sources both.
    * @param viewportInfo - The viewportId and its renderingEngineId to add to the list of targets and sources.
    */
-  public add(viewportInfo: Types.IViewportId): void {
+  public add(viewportInfo: IViewportId): void {
     this.addTarget(viewportInfo);
     this.addSource(viewportInfo);
   }
@@ -91,7 +91,7 @@ class Synchronizer {
    * Add a viewport to the list of sources (source ONLY)
    * @param viewportInfo - The viewportId and its renderingEngineId to add to the list of targets and sources.
    */
-  public addSource(viewportInfo: Types.IViewportId): void {
+  public addSource(viewportInfo: IViewportId): void {
     if (_containsViewport(this._sourceViewports, viewportInfo)) {
       return;
     }
@@ -128,7 +128,7 @@ class Synchronizer {
    * executed when the event is fired on the source viewport.
    * @param viewportInfo - The viewportId and its renderingEngineId to add to the list of targets and sources.
    */
-  public addTarget(viewportInfo: Types.IViewportId): void {
+  public addTarget(viewportInfo: IViewportId): void {
     if (_containsViewport(this._targetViewports, viewportInfo)) {
       return;
     }
@@ -141,7 +141,7 @@ class Synchronizer {
    * Get the list of source viewports (as {viewportId, renderingEngineId} objects)
    * @returns An array of {viewportId, renderingEngineId} objects.
    */
-  public getSourceViewports(): Array<Types.IViewportId> {
+  public getSourceViewports(): Array<IViewportId> {
     return this._sourceViewports;
   }
 
@@ -149,7 +149,7 @@ class Synchronizer {
    * Get the list of target viewports (as {viewportId, renderingEngineId} objects)
    * @returns An array of {viewportId, renderingEngineId} objects.
    */
-  public getTargetViewports(): Array<Types.IViewportId> {
+  public getTargetViewports(): Array<IViewportId> {
     return this._targetViewports;
   }
 
@@ -162,7 +162,7 @@ class Synchronizer {
    * Remove the viewport from the list of targets and sources
    * @param viewportInfo - The viewport info including viewportId and renderingEngineId.
    */
-  public remove(viewportInfo: Types.IViewportId): void {
+  public remove(viewportInfo: IViewportId): void {
     this.removeTarget(viewportInfo);
     this.removeSource(viewportInfo);
   }
@@ -171,7 +171,7 @@ class Synchronizer {
    * Remove the viewport from the list of source viewports
    * @param viewportInfo - The viewport info including viewportId and renderingEngineId.
    */
-  public removeSource(viewportInfo: Types.IViewportId): void {
+  public removeSource(viewportInfo: IViewportId): void {
     const index = _getViewportIndex(this._sourceViewports, viewportInfo);
 
     if (index === -1) {
@@ -200,7 +200,7 @@ class Synchronizer {
    * @param viewportInfo - The viewport info including viewportId and renderingEngineId.
    *
    */
-  public removeTarget(viewportInfo: Types.IViewportId): void {
+  public removeTarget(viewportInfo: IViewportId): void {
     const index = _getViewportIndex(this._targetViewports, viewportInfo);
 
     if (index === -1) {
@@ -231,7 +231,7 @@ class Synchronizer {
     });
   }
 
-  private fireEvent(sourceViewport: Types.IViewportId, sourceEvent: any): void {
+  private fireEvent(sourceViewport: IViewportId, sourceEvent: any): void {
     if (this.isDisabled() || this._ignoreFiredEvents) {
       return;
     }
@@ -345,9 +345,9 @@ class Synchronizer {
 }
 
 function _getUniqueViewports(
-  vp1: Array<Types.IViewportId>,
-  vp2: Array<Types.IViewportId>
-): Array<Types.IViewportId> {
+  vp1: Array<IViewportId>,
+  vp2: Array<IViewportId>
+): Array<IViewportId> {
   const unique = [];
 
   const vps = vp1.concat(vp2);
@@ -368,10 +368,7 @@ function _getUniqueViewports(
   return unique;
 }
 
-function _getViewportIndex(
-  arr: Array<Types.IViewportId>,
-  vp: Types.IViewportId
-): number {
+function _getViewportIndex(arr: Array<IViewportId>, vp: IViewportId): number {
   return arr.findIndex(
     (ar) =>
       vp.renderingEngineId === ar.renderingEngineId &&
@@ -379,10 +376,7 @@ function _getViewportIndex(
   );
 }
 
-function _containsViewport(
-  arr: Array<Types.IViewportId>,
-  vp: Types.IViewportId
-) {
+function _containsViewport(arr: Array<IViewportId>, vp: IViewportId) {
   return arr.some(
     (ar) =>
       ar.renderingEngineId === vp.renderingEngineId &&
@@ -390,7 +384,7 @@ function _containsViewport(
   );
 }
 
-function _getViewportElement(vp: Types.IViewportId): HTMLDivElement {
+function _getViewportElement(vp: IViewportId): HTMLDivElement {
   const renderingEngine = getRenderingEngine(vp.renderingEngineId);
   if (!renderingEngine) {
     throw new Error(`No RenderingEngine for Id: ${vp.renderingEngineId}`);

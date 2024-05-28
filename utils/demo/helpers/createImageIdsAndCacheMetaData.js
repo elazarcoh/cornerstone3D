@@ -41,8 +41,26 @@ export default async function createImageIdsAndCacheMetaData({
   };
 
   client = client || new api.DICOMwebClient({ url: wadoRsRoot });
-  let instances = await client.retrieveSeriesMetadata(studySearchOptions);
+  let instances;
 
+  try {
+    await client.retrieveSeriesMetadata(studySearchOptions);
+    instances = client.apiState.seriesMetadata;
+  } catch (error) {
+    console.warn(
+      'Error retrieving series metadata from the cloud, falling back to local',
+      error
+    );
+    try {
+      instances = retrieveSeriesMetadataLocally(studySearchOptions);
+    } catch (error) {
+      console.warn('Error retrieving series metadata locally', error);
+    }
+  }
+
+  if (!instances) {
+    throw new Error('No instances found');
+  }
   // if sop instance is provided we should filter the instances to only include the one we want
   if (SOPInstanceUID) {
     instances = instances.filter((instance) => {

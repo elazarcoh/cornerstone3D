@@ -94,3 +94,11 @@ after the commits are squashed.
 [blog]: https://circleci.com/blog/triggering-trusted-ci-jobs-on-untrusted-forks/
 [script]: https://github.com/jklukas/git-push-fork-to-upstream-branch
 <!-- prettier-ignore-end -->
+
+#### Test Data
+
+If you are adding new test data, please make sure to include the following:
+
+- [] The data I'm adding has been anonymized and does not contain any PHI.
+- [] The data I'm adding is not subject to any privacy laws or regulations.
+- [] The data I'm adding is not subject to any copyright or licensing restrictions.
